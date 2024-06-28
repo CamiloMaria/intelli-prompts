@@ -17,6 +17,7 @@ export default function Feed() {
         const res = await fetch(`/api/prompt`, {
             method: 'GET',
             cache: 'no-cache',
+            next: { revalidate: 10 }
         });
         const data = await res.json();
         setPosts(data);
