@@ -1,7 +1,20 @@
-const Provider = () => {
+'use client'
+
+import { Session } from "next-auth"
+import { SessionProvider } from "next-auth/react"
+
+const Provider = ({
+    children, session
+}: Readonly<{
+    children: React.ReactNode
+    session?: Session
+}>) => {
     return (
-        <div>Provider</div>
+        <SessionProvider session={session}>
+            {children}
+        </SessionProvider>
     )
 }
+
 
 export default Provider

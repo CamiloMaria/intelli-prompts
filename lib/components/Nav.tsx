@@ -2,14 +2,14 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ClientSafeProvider, LiteralUnion, getProviders, signIn, signOut } from "next-auth/react"
+import { ClientSafeProvider, LiteralUnion, getProviders, signIn, signOut, useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { BuiltInProviderType } from "next-auth/providers/index"
 
 type ProviderState = Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null;
 
 const Nav = () => {
-    const isUserLoggedIn = true
+    const { data: session } = useSession();
 
     const [providers, setProviders] = useState<ProviderState>(null);
     const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -37,7 +37,7 @@ const Nav = () => {
             </Link>
 
             <div className="sm:flex hidden">
-                {isUserLoggedIn ? (
+                {session?.user ? (
                     <div className="flex gap-3 md:gap-5">
                         <Link href="/create-prompt" className="black_btn">
                             Create Prompt
@@ -52,7 +52,7 @@ const Nav = () => {
 
                         <Link href="/profile" className="flex gap-2 flex-center">
                             <Image
-                                src="/assets/images/logo.svg"
+                                src={session?.user?.image as string}
                                 alt="Profile Icon"
                                 width={37}
                                 height={37}
@@ -77,10 +77,10 @@ const Nav = () => {
             </div>
 
             <div className="sm:hidden flex relative">
-                {isUserLoggedIn ? (
+                {session?.user ? (
                     <div className="flex">
                         <Image
-                            src="/assets/images/logo.svg"
+                            src={session?.user?.image as string}
                             alt="Profile Icon"
                             width={37}
                             height={37}
