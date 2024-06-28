@@ -14,12 +14,12 @@ const Nav = () => {
     const [providers, setProviders] = useState<ProviderState>(null);
     const [toggleDropdown, setToggleDropdown] = useState(false);
 
-    useEffect(() => {
-        const fetchProviders = async () => {
-            const providerData = await getProviders();
-            setProviders(providerData);
-        };
+    const fetchProviders = async () => {
+        const providerData = await getProviders();
+        setProviders(providerData);
+    };
 
+    useEffect(() => {
         fetchProviders();
     }, []);
 
@@ -66,7 +66,9 @@ const Nav = () => {
                             <button
                                 type="button"
                                 key={provider.name}
-                                onClick={() => signIn(provider.id)}
+                                onClick={() => {
+                                    signIn(provider.id);
+                                }}
                                 className="black_btn"
                             >
                                 Sign in with {provider.name}
