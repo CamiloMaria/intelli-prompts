@@ -1,6 +1,6 @@
 import Prompt from "@lib/models/prompt";
 import { connectToDB } from "@lib/utils/database";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 interface IParams {
     params: {
@@ -15,18 +15,21 @@ export const GET = async (req: NextRequest, { params }: IParams) => {
         const prompt = await Prompt.findById(params.id).populate('creator');
 
         if (!prompt) {
-            return new NextResponse('Prompt not found', {
+            return new Response('Prompt not found', {
                 status: 404,
             });
         }
 
-        return new NextResponse(JSON.stringify(prompt), {
+        return new Response(JSON.stringify(prompt), {
             status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
     } catch (error) {
-        return new NextResponse('Failed to fetch the prompts'), {
+        return new Response('Failed to fetch the prompts', {
             status: 500,
-        };
+        });
     }
 };
 
@@ -44,16 +47,19 @@ export const PATCH = async (req: NextRequest, { params }: IParams) => {
         });
 
         if (!data) {
-            return new NextResponse('Prompt not found', {
+            return new Response('Prompt not found', {
                 status: 404,
             });
         }
 
-        return new NextResponse(JSON.stringify(data), {
+        return new Response(JSON.stringify(data), {
             status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
     } catch (error) {
-        return new NextResponse('Failed to update the prompt', {
+        return new Response('Failed to update the prompt', {
             status: 500,
         });
     }
@@ -66,16 +72,16 @@ export const DELETE = async (req: NextRequest, { params }: IParams) => {
         const data = await Prompt.findByIdAndDelete(params.id);
 
         if (!data) {
-            return new NextResponse('Prompt not found', {
+            return new Response('Prompt not found', {
                 status: 404,
             });
         }
 
-        return new NextResponse('Prompt deleted successfully', {
+        return new Response('Prompt deleted successfully', {
             status: 200,
         });
     } catch (error) {
-        return new NextResponse('Failed to delete the prompt', {
+        return new Response('Failed to delete the prompt', {
             status: 500,
         });
     }
