@@ -14,7 +14,10 @@ export default function Feed() {
     }, 300);
 
     const fetchPosts = async () => {
-        const res = await fetch(`/api/prompt`);
+        const res = await fetch(`/api/prompt`, {
+            method: 'GET',
+            cache: 'no-cache',
+        });
         const data = await res.json();
         setPosts(data);
     }
