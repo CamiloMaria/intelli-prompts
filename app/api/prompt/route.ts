@@ -10,10 +10,14 @@ export const GET = async (req: NextRequest) => {
 
         return new Response(JSON.stringify(prompts), {
             status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
     } catch (error) {
-        return new Response( 'Failed to fetch the prompts'), {
+        // Corrected the syntax error in the catch block
+        return new Response('Failed to fetch the prompts', {
             status: 500,
-        };
+        });
     }
 };
