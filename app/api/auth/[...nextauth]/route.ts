@@ -1,7 +1,21 @@
 import User from "@lib/models/user";
 import { connectToDB } from "@lib/utils/database";
-import NextAuth from "next-auth";
+import NextAuth, { Profile, Session } from "next-auth";
 import Google from "next-auth/providers/google";
+
+interface IProfile {
+    profile?: Profile & {
+        picture?: string
+    };
+}
+
+interface ISession {
+    session: Session & {
+        user?: {
+            id?: string
+        }
+    }
+}
 
 const handler = NextAuth({
     providers: [
@@ -11,19 +25,19 @@ const handler = NextAuth({
         })
     ],
     callbacks: {
-        async session({ session }) {
+        async session({ session }: ISession) {
             if (!session.user) {
                 return session;
             }
 
             const sessionUser = await User.findOne({ email: session.user.email });
 
-            (session.user as any).id = sessionUser?._id.toString();
-        
+            session.user.id = sessionUser?._id.toString();
+
             return session;
         },
 
-        async signIn({ profile }) {
+        async signIn({ profile }: IProfile) {
             try {
                 if (!profile || !profile.email) {
                     console.error('Profile or profile email is undefined');
@@ -41,7 +55,7 @@ const handler = NextAuth({
                     await User.create({
                         email: profile.email,
                         username,
-                        image: profile.image,
+                        image: profile.image || profile.picture,
                     });
                 }
 

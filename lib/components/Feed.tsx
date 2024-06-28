@@ -1,29 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import PromptCard from "./PromptCard";
-
-const PromptCardList = ({ data, handleTagclick }) => {
-    return (
-        <div className="mt-16 prompt_layout">
-            {data.map((post) => (
-                <PromptCard
-                    key={post._id}
-                    post={post}
-                    handleTagclick={handleTagclick}
-                />
-            ))}
-        </div>
-    )
-}
+import PromptCardList from "./PromptCardList";
+import { IPost } from "@lib/interfaces";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function Feed() {
     const [search, setSearch] = useState("");
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<IPost[]>([]);
 
-    const handleSearch = (e) => {
-        setSearch(e.target.value);
-    }
+    const handleSearch = useDebouncedCallback((term: string) => {
+        setSearch(term);
+    }, 300);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -41,8 +29,7 @@ export default function Feed() {
                 <input
                     type="text"
                     placeholder="Search for a tag or username"
-                    value={search}
-                    onChange={handleSearch}
+                    onChange={(e) => handleSearch(e.target.value)}
                     required
                     className="search_input peer"
                 />
