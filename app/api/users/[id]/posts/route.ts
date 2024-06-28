@@ -12,15 +12,15 @@ export const GET = async (req: NextRequest, { params }: IParams) => {
     try {
         await connectToDB();
 
-        const prompt = await Prompt.findById(params.id).populate('creator');
+        const prompts = await Prompt.find({ creator: params.id }).populate("creator")
 
-        if (!prompt) {
+        if (!prompts) {
             return new Response('Prompt not found', {
                 status: 404,
             });
         }
 
-        return new Response(JSON.stringify(prompt), {
+        return new Response(JSON.stringify(prompts), {
             status: 200,
 
         });

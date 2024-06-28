@@ -36,6 +36,7 @@ const MyProfile = () => {
     }
 
     const fetchPosts = async () => {
+        console.log(session)
         if (!session) return;
 
         const res = await fetch(`/api/users/${session.user?.id}/posts`);
@@ -45,7 +46,7 @@ const MyProfile = () => {
 
     useEffect(() => {
         if (session && session.user?.id) fetchPosts();
-    }, []);
+    }, [session?.user?.id]);
 
     return (
         <Profile
