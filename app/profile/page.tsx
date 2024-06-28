@@ -36,7 +36,6 @@ const MyProfile = () => {
     }
 
     const fetchPosts = async () => {
-        console.log(session)
         if (!session) return;
 
         const res = await fetch(`/api/users/${session.user?.id}/posts`);
