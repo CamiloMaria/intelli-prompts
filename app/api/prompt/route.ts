@@ -10,9 +10,6 @@ export const GET = async (req: NextRequest) => {
 
         return new Response(JSON.stringify(prompts), {
             status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
         });
     } catch (error) {
         // Corrected the syntax error in the catch block

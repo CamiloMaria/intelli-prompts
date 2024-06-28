@@ -22,9 +22,6 @@ export const GET = async (req: NextRequest, { params }: IParams) => {
 
         return new Response(JSON.stringify(prompt), {
             status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
         });
     } catch (error) {
         return new Response('Failed to fetch the prompts', {
@@ -54,9 +51,6 @@ export const PATCH = async (req: NextRequest, { params }: IParams) => {
 
         return new Response(JSON.stringify(data), {
             status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-            },
         });
     } catch (error) {
         return new Response('Failed to update the prompt', {

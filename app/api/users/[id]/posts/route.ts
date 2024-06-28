@@ -12,16 +12,21 @@ export const GET = async (req: NextRequest, { params }: IParams) => {
     try {
         await connectToDB();
 
-        const prompts = await Prompt.find({
-            creator: params.id,
-        }).populate('creator');
+        const prompt = await Prompt.findById(params.id).populate('creator');
 
-        return new NextResponse(JSON.stringify(prompts), {
+        if (!prompt) {
+            return new Response('Prompt not found', {
+                status: 404,
+            });
+        }
+
+        return new Response(JSON.stringify(prompt), {
             status: 200,
+
         });
     } catch (error) {
-        return new NextResponse('Failed to fetch the prompts'), {
+        return new Response('Failed to fetch the prompts', {
             status: 500,
-        };
+        });
     }
 };
