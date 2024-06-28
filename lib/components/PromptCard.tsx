@@ -11,8 +11,8 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }:
     Readonly<{
         post: IPost,
         handleTagClick?: (tag: string) => void,
-        handleEdit: (post: IPost) => void,
-        handleDelete: (post: IPost) => void
+        handleEdit?: (post: IPost) => void,
+        handleDelete?: (post: IPost) => void
     }>
 ) => {
     const [copied, setCopied] = useState("");
