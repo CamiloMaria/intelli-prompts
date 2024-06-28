@@ -1,21 +1,10 @@
+import { IProfile } from "@lib/interfaces/profile.interface";
+import { ISession } from "@lib/interfaces/session.interface";
 import User from "@lib/models/user";
 import { connectToDB } from "@lib/utils/database";
-import NextAuth, { Profile, Session } from "next-auth";
+import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
-interface IProfile {
-    profile?: Profile & {
-        picture?: string
-    };
-}
-
-interface ISession {
-    session: Session & {
-        user?: {
-            id?: string
-        }
-    }
-}
 
 const handler = NextAuth({
     providers: [

@@ -13,13 +13,12 @@ export default function Feed() {
         setSearch(term);
     }, 300);
 
+    const fetchPosts = async () => {
+        const res = await fetch(`/api/prompt`);
+        const data = await res.json();
+        setPosts(data);
+    }
     useEffect(() => {
-        const fetchPosts = async () => {
-            const res = await fetch(`/api/prompt`);
-            const data = await res.json();
-            setPosts(data);
-        }
-
         fetchPosts();
     }, []);
 
